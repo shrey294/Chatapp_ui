@@ -1,0 +1,14 @@
+.chat-sidebar {
+  width: 25%;
+  border-right: 1px solid #dee2e6;
+}
+.chat-content {
+  width: 75%;
+}
+.chat-message {
+  max-width: 75%;
+}
+.chat-scroll {
+  height: calc(100vh - 160px);
+  overflow-y: auto;
+}

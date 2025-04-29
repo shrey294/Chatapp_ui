@@ -1,0 +1,90 @@
+<div class="bg-light">
+  <div class="d-flex vh-100">
+    <div class="chat-sidebar bg-white d-flex flex-column">
+
+      <!-- Header -->
+      <div class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">{{roomname}}</h5>
+        <button (click)="leavechat()" class="btn btn-outline-danger btn-sm">
+          <i class="fas fa-sign-out-alt"></i> Leave
+        </button>
+      </div>
+
+      <!-- Search -->
+      <div class="p-3 border-bottom">
+        <div class="input-group">
+          <span class="input-group-text bg-white">
+            <i class="fa fa-search"></i>
+          </span>
+          <input type="text" class="form-control" placeholder="Search users...">
+        </div>
+      </div>
+
+      <!-- User List -->
+      <div class="flex-grow-1 overflow-auto">
+        <ng-container *ngFor="let user of this.chatService.ConnectedUsers$ | async">
+          <div class="p-3 d-flex align-items-center border-bottom hover-bg-light" style="cursor: pointer;">
+            <img src="https://ptetutorials.com/images/user-profile.png" class="rounded-circle me-3" width="40" height="40" alt="user">
+            <div>
+              <div class="fw-medium">{{user}}</div>
+              <span class="badge bg-success rounded-circle" style="width: 10px; height: 10px;"></span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+    </div> <!-- End of chat-sidebar -->
+
+    <div class="chat-content d-flex flex-column">
+      <div class="p-3 bg-white border-bottom">
+        <h5 class="mb-0">Chat</h5>
+      </div>
+      <div class="chat-scroll p-3 bg-light flex-grow-1">
+        <ng-container *ngFor="let message of messages">
+          <!-- Bot Message -->
+          <div *ngIf="message.user === 'Let\'s Program Bot'" class="d-flex justify-content-center mb-3">
+            <div class="text-center">
+              <div class="bg-light p-2 rounded shadow-sm chat-message">
+                <p class="mb-1 text-muted"><small>{{ message.message }}</small></p>
+              </div>
+              <small class="text-muted">{{ message.messagetime | date: 'hh:mm a' }}</small>
+            </div>
+          </div>
+          
+          <!-- Incoming Message (other users) -->
+          <div *ngIf="message.user !== loggedInUserName && message.user !== 'Let\'s Program Bot'" class="d-flex mb-3">
+            <img src="https://ptetutorials.com/images/user-profile.png" class="rounded-circle me-2" width="32" height="32" alt="user">
+            <div>
+              <div class="bg-white p-2 rounded shadow-sm chat-message">
+                <p class="mb-1 text-dark">{{ message.message }}</p>
+              </div>
+              <small class="text-muted">{{ message.user }} | {{ message.messagetime | date: 'hh:mm a' }}</small>
+            </div>
+          </div>
+          
+          <!-- Outgoing Message (logged in user) -->
+          <div *ngIf="message.user === loggedInUserName" class="d-flex justify-content-end mb-3">
+            <div>
+              <div class="bg-primary text-white p-2 rounded shadow-sm chat-message">
+                <p class="mb-1">{{ message.message }}</p>
+              </div>
+              <small class="text-muted d-block text-end">{{ message.user }} | {{ message.messagetime | date: 'hh:mm a' }}</small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      
+      <!-- Message Input -->
+      <div class="p-3 bg-white border-top">
+        <div class="d-flex">
+          <input (keydown.enter)="sendmessage()" [(ngModel)]="inputmessage" type="text" class="form-control me-2" placeholder="Type a message...">
+          <button (click)="sendmessage()" class="btn btn-primary">
+            <i class="fa fa-paper-plane-o"
+                aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>   <!-- End of d-flex vh-100 -->
+</div>     <!-- End of bg-light -->
