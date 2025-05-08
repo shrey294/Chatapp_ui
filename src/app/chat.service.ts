@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  public Connection : signalR.HubConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7286/chat").configureLogging(signalR.LogLevel.Information).build();
+  public Connection : signalR.HubConnection = new signalR.HubConnectionBuilder().withUrl("https://chatapplication-ls5m.onrender.com/chat").configureLogging(signalR.LogLevel.Information).build();
   public messages$ = new BehaviorSubject<any>([]);
   public ConnectedUsers$ = new BehaviorSubject<string[]>([]);
   public messages:any[]=[];
